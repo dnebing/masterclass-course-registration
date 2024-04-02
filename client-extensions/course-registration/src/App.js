@@ -141,7 +141,7 @@ const App = ({ admin }) => {
 			{view === 'detail' && selectedRegistration && (
 				<DetailComponent
 					externalReferenceCode={selectedRegistration.externalReferenceCode}
-					onBackToList={handleBack}
+					onBackToList={handleList}
 				/>
 			)}
 			{view === 'add' && (
