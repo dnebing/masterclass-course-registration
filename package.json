@@ -2,8 +2,7 @@
     "private": true,
     "workspaces": {
         "packages": [
-            "client-extensions/course-registration",
-            "client-extensions/liferay-coefrontend-custom-element-liferay-packages"
+            "client-extensions/course-registration"
         ]
     }
 }
