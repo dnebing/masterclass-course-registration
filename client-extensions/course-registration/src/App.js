@@ -5,8 +5,7 @@
  */
 
 
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import TableComponent from './TableComponent.js'
 import FormComponent from './FormComponent.js'
@@ -39,21 +38,13 @@ const App = ({ admin }) => {
 	const [view, setView] = useState('list'); // 'list', 'detail', 'add'
 	const [registrationStatuses, setRegistrationStatuses] = useState({});
 	const [upcomingCourses, setUpcomingCourses] = useState([{}]);
-	const [registrations, setRegistrations] = useState([]);
 	const [selectedRegistration, setSelectedRegistration] = useState(null);
-
-	useEffect(() => {
-		console.log("App has been bound, fetching data...");
-
-		fetchRegistrationStatuses();
-		fetchUpcomingCourses();
-	}, []);
 
 	/**
 	 * fetchRegistrationStatuses: Fetches the map of registration statuses.
 	 * @returns {Promise<void>}
 	 */
-	const fetchRegistrationStatuses = async () => {
+	const fetchRegistrationStatuses = () => {
 		api('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
 			+ RegistrationStatusERC)
 			.then((response) => response.json())
@@ -83,7 +74,7 @@ const App = ({ admin }) => {
 	 * fetchUpcomingCourses: Fetches a map of the upcoming courses
 	 * @returns {Promise<void>}
 	 */
-	const fetchUpcomingCourses = async () => {
+	const fetchUpcomingCourses = () => {
 		api('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
 			+ UpcomingCoursesERC)
 			.then((response) => response.json())
@@ -107,6 +98,13 @@ const App = ({ admin }) => {
 			});
 	};
 
+	useEffect(() => {
+		console.log("App has been bound, fetching data...");
+
+		fetchRegistrationStatuses();
+		fetchUpcomingCourses();
+	}, []);
+
 	/**
 	 * handleRowClick: When a row is clicked in the table of registrations, this method handles it.
 	 * @param registration
@@ -128,6 +126,8 @@ const App = ({ admin }) => {
 	 * handleAddNew: When the add button is clicked, this method handles it.
 	 */
 	const handleAddNew = () => {
+		console.log("Adding new registration...");
+
 		setRegistrationStatuses(null);
 		setView('add');
 	};
@@ -170,10 +170,42 @@ const App = ({ admin }) => {
 		}
 	};
 
+	useEffect(() => {
+		console.log('view has updated:', view);
+	  }, [view]);
+	  
+	const renderComponent = useCallback(()=>{
+        switch (view){
+			default:
+            case "list":
+                if (admin) {
+                    return <AdminTableComponent onViewRegistration={handleRowClick} onAddCourseRegistration={handleAddNew}/>;
+                }
+
+                return <TableComponent onViewRegistration={handleRowClick} onAddCourseRegistration={handleAddNew}/>
+
+            case "detail":
+                if (selectedRegistration) {
+                    return <DetailComponent
+                        externalReferenceCode={selectedRegistration.externalReferenceCode}
+                        onBackToList={handleBack}
+                    />;
+                }
+                break;
+
+            case "add":
+                return <FormComponent Courses={upcomingCourses} Statuses={registrationStatuses} Registration={null} onAfterSave={handleList} onCancel={handleList} />;
+        }
+
+		console.log("Failed to handle view ", view);
+		
+        return <div> none </div>
+    },[view, selectedRegistration]);
+
 	// Render functions for each view: renderTable, renderDetail, renderAddForm
 	return (
-        <div>
-            {registrationStatuses && upcomingCourses && returnView()}
+        <div key={view}>
+            {registrationStatuses && upcomingCourses && view && renderComponent() }
         </div>
     );
 }

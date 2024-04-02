@@ -18,28 +18,30 @@ const SiteID = "32815";
  */
 function TableComponent({ onAddCourseRegistration, onViewRegistration }) {
     const [sort, setSort] = useState(null);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
     const [filterQuery, setFilterQuery] = useState('');
-
-    useEffect(() => {
-        fetchRegistrations();
-    }, []);
 
     /**
      * fetchRegistrations: Fetches the list of registrations from the headless endpoint.
      * @returns {Promise<void>}
      */
-    const fetchRegistrations = async () => {
-        api('o/c/courseregistrations/scopes/' + SiteID)
-            .then((response) => response.json())
-            .then((response) => {
-                setData(response.items);
-            })
-            .catch((error) => {
-                // eslint-disable-next-line no-console
-                console.log(error);
-            });
+    const fetchRegistrations = () => {
+        return api('o/c/courseregistrations/scopes/' + SiteID);
     };
+
+    useEffect(() => {
+        fetchRegistrations()
+        .then((response) => response.json())
+        .then((response) => {
+            console.log("Got registrations ", response.items);
+            
+            setData(response.items);
+        })
+        .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+        });
+}, []);
 
     /**
      * handleSortChange: Triggered when the sort is changed, either by a new column or direction.
@@ -57,6 +59,8 @@ function TableComponent({ onAddCourseRegistration, onViewRegistration }) {
      * @type {T[]|*[]}
      */
     const filteredAndSortedData = useMemo(() => {
+        console.log("Filtering and sorting data with ", filterQuery, " and ", sort, " and ", data, ".");
+
         if (!data || data.length === 0) {
             return [];
         }
@@ -127,35 +131,39 @@ function TableComponent({ onAddCourseRegistration, onViewRegistration }) {
 
     return (
         <div>
-            <Toolbar onAddCourseRegistration={onAddCourseRegistration} onSearch={handleFilterChange} />
-            <Table onSortChange={handleSortChange} sort={sort}>
-                <Head items={[{
-                    id: "courseName",
-                    name: "Course"
-                }, {
-                    id: "registrationStatus",
-                    name: "Status"
-                }
-                ]}>
-                    {column => (
-                        <Cell key={column.id} sortable>
-                            {column.name}
-                        </Cell>
-                    )}
-                </Head>
-                <Body defaultItems={filteredAndSortedData}>
-                    {row => (
-                        <Row>
-                            <Cell onClick={ () => handleView(row)}>
-                                <Text size={3} weight="semi-bold">
-                                    {row["course.name"]}
-                                </Text>
-                            </Cell>
-                            <Cell onClick={ () => handleView(row)}>{row["registrationStatus.name"]}</Cell>
-                        </Row>
-                    )}
-                </Body>
-            </Table>
+            {data && (
+                <div>
+                    <Toolbar onAddCourseRegistration={onAddCourseRegistration} onSearch={handleFilterChange} />
+                    <Table onSortChange={handleSortChange} sort={sort}>
+                        <Head items={[{
+                            id: "courseName",
+                            name: "Course"
+                        }, {
+                            id: "registrationStatus",
+                            name: "Status"
+                        }
+                        ]}>
+                            {column => (
+                                <Cell key={column.id} sortable>
+                                    {column.name}
+                                </Cell>
+                            )}
+                        </Head>
+                        <Body defaultItems={filteredAndSortedData}>
+                            {row => (
+                                <Row>
+                                    <Cell onClick={ () => handleView(row)}>
+                                        <Text size={3} weight="semi-bold">
+                                            {row["course"]["name"]}
+                                        </Text>
+                                    </Cell>
+                                    <Cell onClick={ () => handleView(row)}>{row["registrationStatus"]["name"]}</Cell>
+                                </Row>
+                            )}
+                        </Body>
+                    </Table>
+                </div>
+            )}
         </div>
     )
 };

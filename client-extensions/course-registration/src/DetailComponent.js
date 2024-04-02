@@ -11,17 +11,10 @@ function DetailComponent({ externalReferenceCode , onBackToList }) {
   const [data, setData] = useState(null);
 
   /**
-   * useEffect: Fetches the registration data when the component is mounted.
-   */
-  useEffect(() => {
-    fetchRegistration();
-  }, []);
-
-  /**
    * fetchRegistrations: Fetches the list of registrations from the headless endpoint.
    * @returns {Promise<void>}
    */
-  const fetchRegistration = async () => {
+  const fetchRegistration = () => {
     api('o/c/courseregistrations/by-external-reference-code/' + externalReferenceCode)
         .then((response) => response.json())
         .then((response) => {
@@ -32,6 +25,13 @@ function DetailComponent({ externalReferenceCode , onBackToList }) {
             console.log(error);
         });
   };
+
+  /**
+   * useEffect: Fetches the registration data when the component is mounted.
+   */
+  useEffect(() => {
+    fetchRegistration();
+  }, []);
 
   return (
     <div>
