@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ClayForm, ClaySelect, ClayInput } from '@clayui/core';
+import ClayForm, {ClayInput, ClaySelect} from '@clayui/form';
 import ClayAlert from '@clayui/alert';
 import ClayButton from '@clayui/button';
 
