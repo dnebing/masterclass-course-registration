@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import {Body, Cell, Head, Row, Table, Provider} from '@clayui/core';
+import {Body, Cell, Head, Row, Table, Text } from '@clayui/core';
 import api from './api.js';
 import Toolbar from "./Toolbar.js";
 

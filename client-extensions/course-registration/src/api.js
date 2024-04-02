@@ -4,6 +4,8 @@
  * @author dnebinger
  */
 
+/* global Liferay */
+
 /**
  * api: Utility method to invoke the headless API with current user authentication.
  * @param url The headless URL portion to call.

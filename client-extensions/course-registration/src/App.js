@@ -132,23 +132,50 @@ const App = ({ admin }) => {
 		setView('add');
 	};
 
+	const returnAdminView = () => {
+		return (
+			<AdminTableComponent onViewRegistration={handleRowClick} onAddCourseRegistration={handleAddNew} />
+		);
+	};
+
+	const returnNormalView = () => {
+		return (
+			<TableComponent onViewRegistration={handleRowClick} onAddCourseRegistration={handleAddNew} />
+		);
+	};
+
+	const returnDetailView = () => {
+		return (
+			<DetailComponent
+				externalReferenceCode={selectedRegistration.externalReferenceCode}
+				onBackToList={handleList}
+			/>
+		);
+	}
+
+	const returnFormView = () => {
+		return (
+			<FormComponent Courses={upcomingCourses} Statuses={registrationStatuses} Registration={null}
+				onAfterSave={handleList} onCancel={handleList} />
+		);
+	}
+
+	const returnView = () => {
+		if (view === 'list') {
+			return admin ? returnAdminView() : returnNormalView();
+		} else if (view === 'detail') {
+			return returnDetailView();
+		} else if (view === 'add') {
+			return returnFormView();
+		}
+	};
+
 	// Render functions for each view: renderTable, renderDetail, renderAddForm
 	return (
-		<div>
-
-			{view === 'list' && admin ? <AdminTableComponent onViewRegistration={handleRowClick} onAddCourseRegistration={handleAddNew} /> : 
-										<TableComponent onViewRegistration={handleRowClick} onAddCourseRegistration={handleAddNew}  />}
-			{view === 'detail' && selectedRegistration && (
-				<DetailComponent
-					externalReferenceCode={selectedRegistration.externalReferenceCode}
-					onBackToList={handleList}
-				/>
-			)}
-			{view === 'add' && (
-				<FormComponent Courses={upcomingCourses} Statuses={registrationStatuses} Registration={null} 
-					onAfterSave={handleList} onCancel={handleList} />
-			)}
-		</div>
-	);}
+        <div>
+            {registrationStatuses && upcomingCourses && returnView()}
+        </div>
+    );
+}
 
 export default App;
