@@ -4,22 +4,16 @@
  * @author dnebinger
  */
 
-import ClayForm, {ClayInput, ClaySelect} from '@clayui/form';
-import ClayButton, {ClayButtonWithIcon} from '@clayui/button';
-import ClayIcon from '@clayui/icon';
-import {ClayDropDownWithItems} from '@clayui/drop-down';
-import ClayToolbar from '@clayui/toolbar';
-import {Body, Cell, Head, Row, Table, Provider} from '@clayui/core';
 
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-import TableComponent from './TableComponent'
-import FormComponent from './FormComponent'
-import DetailComponent from './DetailComponent'
-import AdminTableComponent from './AdminTableComponent'
+import TableComponent from './TableComponent.js'
+import FormComponent from './FormComponent.js'
+import DetailComponent from './DetailComponent.js'
+import AdminTableComponent from './AdminTableComponent.js'
 
-import api from './api';
+import api from './api.js';
 
 /*
 

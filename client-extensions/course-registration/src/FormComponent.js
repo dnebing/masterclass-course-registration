@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ClayForm, ClaySelect, ClayInput, ClayButton } from '@clayui/core';
 import ClayAlert from '@clayui/alert';
-import api from './api';
+import api from './api.js';
 
 /**
  * FormComponent: Implements the form for adding or editing a course registration.

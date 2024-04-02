@@ -6,9 +6,9 @@
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import {Body, Cell, Head, Row, Table, Provider} from '@clayui/core';
-import api from './api';
-import Toolbar from "./Toolbar";
-import ActionButtons from './ActionButtons';
+import api from './api.js';
+import Toolbar from "./Toolbar.js";
+import ActionButtons from './ActionButtons.js';
 
 const SiteID = "32815";
 

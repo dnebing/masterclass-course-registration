@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import api from './api';
-import ActionButtons from './ActionButtons';
+import api from './api.js';
+import ActionButtons from './ActionButtons.js';
 
 /**
  * DetailComponent: Implements the detail component.
