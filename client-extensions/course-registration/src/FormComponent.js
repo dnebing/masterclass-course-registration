@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { ClayForm, ClaySelect, ClayInput, ClayButton } from '@clayui/core';
+import { ClayForm, ClaySelect, ClayInput } from '@clayui/core';
 import ClayAlert from '@clayui/alert';
+import ClayButton from '@clayui/button';
+
 import api from './api.js';
 
 /**
