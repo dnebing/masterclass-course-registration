@@ -102,7 +102,6 @@ const FormComponent = ( {Courses, Statuses, Registration, onAfterSave, onCancel}
                                 prevItems.filter(item => item !== value)
                             );
                         }}
-                        spritemap={spritemap}
                         displayType={value.displayType}
                         title={value.title}
                     >{value.text}</ClayAlert>

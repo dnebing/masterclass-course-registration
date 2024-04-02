@@ -57,6 +57,10 @@ function TableComponent({ onAddCourseRegistration, onViewRegistration }) {
      * @type {T[]|*[]}
      */
     const filteredAndSortedData = useMemo(() => {
+        if (!data || data.length === 0) {
+            return [];
+        }
+
         if (filterQuery.length > 0) {
             // return the filtered and sorted data
             return data

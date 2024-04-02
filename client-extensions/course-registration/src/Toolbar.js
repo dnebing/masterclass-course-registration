@@ -42,7 +42,6 @@ const Toolbar = ( { onAddCourseRegistration, onSearch } ) => {
                                     className="navbar-breakpoint-d-none"
                                     displayType="unstyled"
                                     onClick={() => { setSearchMobile(false); handleClear(); }}
-                                    spritemap={spritemap}
                                     symbol="times"
                                 />
                             </ClayInput.GroupInsetItem>
@@ -54,7 +53,6 @@ const Toolbar = ( { onAddCourseRegistration, onSearch } ) => {
                     <ClayButtonWithIcon
                         aria-label="Add"
                         className="nav-btn nav-btn-monospaced"
-                        spritemap={spritemap}
                         symbol="plus"
                         onClick={onAddCourseRegistration}
                     />

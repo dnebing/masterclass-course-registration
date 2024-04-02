@@ -45,7 +45,7 @@ class CourseRegistration extends HTMLElement {
 	}
 
 	disconnectedCallback() {
-		ReactDOM.unmountComponentAtNode(this);
+		unmountComponentAtNode(this);
 	}
 }
 
