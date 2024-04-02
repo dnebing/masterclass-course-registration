@@ -24,6 +24,8 @@ const FormComponent = ( {Courses, Statuses, Registration, onAfterSave, onCancel}
      * useEffect: Update the form fields from the given registration object.
      */
     useEffect(() => {
+        console.log("Form mounted with statuses ", Statuses);
+        
         if (Registration) {
             setSelectedCourse(Registration.course.key);
             setNotes(Registration.notes);

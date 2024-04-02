@@ -43,6 +43,8 @@ const App = ({ admin }) => {
 	const [selectedRegistration, setSelectedRegistration] = useState(null);
 
 	useEffect(() => {
+		console.log("App has been bound, fetching data...");
+
 		fetchRegistrationStatuses();
 		fetchUpcomingCourses();
 	}, []);
@@ -56,6 +58,8 @@ const App = ({ admin }) => {
 			+ RegistrationStatusERC)
 			.then((response) => response.json())
 			.then((response) => {
+				console.log("Have response ", response);
+
 				if (response.listTypeEntries) {
 					// extract the object
 					const statusObject = response.listTypeEntries.reduce((acc, entry) => {
@@ -65,6 +69,8 @@ const App = ({ admin }) => {
 
 					// set it as the value
 					setRegistrationStatuses(statusObject);
+
+					console.log("Set registration statuses to ", statusObject);
 				}
 			})
 			.catch((error) => {
@@ -91,6 +97,8 @@ const App = ({ admin }) => {
 
 					// set it as the value
 					setUpcomingCourses(courses);
+
+					console.log("Set upcoming courses to ", courses);
 				}
 			})
 			.catch((error) => {
