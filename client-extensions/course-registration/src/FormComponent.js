@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ClayForm, {ClayInput, ClaySelect} from '@clayui/form';
 import ClayAlert from '@clayui/alert';
 import ClayButton from '@clayui/button';
@@ -21,9 +21,9 @@ const FormComponent = ( {Courses, Statuses, Registration, onAfterSave, onCancel}
     const [toastItems, setToastItems] = useState([]);
 
     /**
-     * onUseEffect: Update the form fields from the given registration object.
+     * useEffect: Update the form fields from the given registration object.
      */
-    onUseEffect(() => {
+    useEffect(() => {
         if (Registration) {
             setSelectedCourse(Registration.course.key);
             setNotes(Registration.notes);

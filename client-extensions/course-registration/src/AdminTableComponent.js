@@ -61,7 +61,8 @@ function AdminTableComponent({ onViewRegistration, onAddCourseRegistration }) {
      */
     const filteredAndSortedData = useMemo(() => {
         if (filterQuery.length > 0) {
-            // return the filtered and sorted data
+            if (sort && sort.column && sort.direction) {
+                // return the filtered and sorted data
             return data
                 .filter(item => item.course.name.toLowerCase().includes(filterQuery) ||
                     item.registrationStatus.name.toLowerCase().includes(filterQuery) ||
@@ -78,9 +79,19 @@ function AdminTableComponent({ onViewRegistration, onAddCourseRegistration }) {
 
                     return cmp;
                 });
-        }
+            }
+ 
+            // no sort, just filter
+            return data
+                .filter(item => item.course.name.toLowerCase().includes(filterQuery) ||
+                    item.registrationStatus.name.toLowerCase().includes(filterQuery));
+       }
 
-        // no filter, just return the sorted data
+       if (!sort || !sort.column || !sort.direction) {
+        return data;
+        }
+    
+   // no filter, just return the sorted data
         return data
             .sort((a, b) => {
                 let cmp = new Intl.Collator("en", {numeric: true}).compare(
