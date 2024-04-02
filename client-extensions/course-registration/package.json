@@ -1,0 +1,14 @@
+{
+	"devDependencies": {
+		"@babel/cli": "^7.24.1",
+		"@babel/core": "^7.24.3",
+		"@babel/preset-env": "^7.24.3",
+		"@babel/preset-react": "^7.24.1"
+	},
+	"name": "@liferay/course-registration",
+	"private": true,
+	"scripts": {
+		"build": "babel src -d build/static"
+	},
+	"version": "0.0.0"
+}
