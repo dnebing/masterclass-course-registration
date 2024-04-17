@@ -1,43 +1,48 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ClayForm, {ClayInput, ClaySelect} from '@clayui/form';
 import ClayAlert from '@clayui/alert';
 import ClayButton from '@clayui/button';
 
 import api from './api.js';
 
+const SiteID = "32815";
+
 /**
  * FormComponent: Implements the form for adding or editing a course registration.
- * @param Courses The list of courses.
- * @param Statuses The list of registration statuses.
- * @param Registration The registration to edit, if any.
- * @param onAfterSave The method to call after the save is complete.
- * @param onCancel The method to call when the form is cancelled.
+ * @param courses The list of courses.
+ * @param statuses The list of registration statuses.
+ * @param registration The registration to edit, if any.
+ * @param onClearSelection The method to call when the form is cancelled.
  */
-const FormComponent = ( {Courses, Statuses, Registration, onAfterSave, onCancel}) => {
+const FormComponent = ( {courses, statuses, registration, onClearSelection}) => {
     const [selectedCourse, setSelectedCourse] = useState('');
     const [notes, setNotes] = useState('');
     const [status, setStatus] = useState('pending');
     const [id, setId] = useState(null);
     const [toastItems, setToastItems] = useState([]);
 
+    // Use the navigate hook to navigate to the list view.
+    const navigate = useNavigate();
+
     /**
      * useEffect: Update the form fields from the given registration object.
      */
     useEffect(() => {
-        console.log("Form mounted with statuses ", Statuses);
-        
-        if (Registration) {
-            setSelectedCourse(Registration.course.key);
-            setNotes(Registration.notes);
-            setStatus(Registration.registrationStatus.key);
-            setId(Registration.id);
+        if (registration) {
+            setSelectedCourse(registration.course.key);
+            setNotes(registration.notes);
+            setStatus(registration.registrationStatus.key);
+            setId(registration.id);
         }
-    }, [Registration]);
+    }, [registration]);
 
     /**
      * handleFormSubmit: Handles the form submission.
      */
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+
         // make sure the course is selected
         if (!selectedCourse || selectedCourse === '') {
             setToastItems([...toastItems, {title: 'Error', text: 'Please select a course.', displayType: 'danger'}]);
@@ -45,26 +50,42 @@ const FormComponent = ( {Courses, Statuses, Registration, onAfterSave, onCancel}
             return;
         }
 
+        // by default we're going to be creating a new registration
         var method = 'POST';
         var body = JSON.stringify({course: {key : selectedCourse}, notes});
+        var url = "o/c/courseregistrations/scopes/" + SiteID;
 
         // if there is a registration object, we're doing an update and not a create.
-        if (Registration) {
+        if (registration) {
+            // switch to a patch method and include the id in the body
             method = 'PATCH';
-            body = JSON.stringify({course: {key : selectedCourse}, notes, id});
+            url = "o/c/courseregistrations/scopes/" + SiteID + "/by-external-reference-code/" + registration.externalReferenceCode;
         }
 
-        // Call your local function to invoke the api() method for making a REST call
-        // to the provided URL
-        // Replace 'YOUR_API_URL' with the actual URL
-        api('o/c/courseregistrations/', { method: method, body: body })
+        // invoke the api with the method and body
+        api(url, { method: method, body: body })
         .then((response) => {
-            onAfterSave();
+            // check the response from the api call
+            console.log("Form Submit Result: ", response);
+
+            if (response.ok) {
+                // if the response is ok, clear the selection and navigate back to the list view
+                onClearSelection();
+                navigate('/');
+            }
         })
         .catch((error) => {
-            console.log(error);
-        });
+            console.log("Error submitting form: ", error);
+       });
     };
+
+    /**
+     * handleCancel: Handles the cancel button click.
+     */
+    const handleCancel = () => {
+        onClearSelection();
+        navigate('/');
+    }
 
     return (
         <div>
@@ -72,9 +93,9 @@ const FormComponent = ( {Courses, Statuses, Registration, onAfterSave, onCancel}
                 <ClayForm.Group>
                     <label htmlFor="course">Select Course:</label>
                     <ClaySelect id="course" value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
-                        <ClaySelect.Option value="">-- Select a Course --</ClaySelect.Option>
-                        {Object.entries(Courses).map(([courseID, courseName]) => (
-                            <ClaySelect.Option key={courseID} value={courseID}>{courseName}</ClaySelect.Option>
+                        <ClaySelect.Option key="invalid" value="" label="-- Select a Course --" />
+                        {Object.entries(courses).map(([courseId, courseName]) => (
+                            <ClaySelect.Option key={courseId} value={courseId} label={courseName} />
                         ))}
                     </ClaySelect>
                 </ClayForm.Group>
@@ -86,11 +107,11 @@ const FormComponent = ( {Courses, Statuses, Registration, onAfterSave, onCancel}
 
                 <ClayForm.Group>
                     <label htmlFor="status">Status:</label>
-                    <ClayInput id="status" value={Statuses[status]} disabled />
+                    <ClayInput id="status" value={statuses[status]} disabled />
                 </ClayForm.Group>
 
                 <ClayForm.Group>
-                    <ClayButton type="button" onClick={onCancel}>Cancel</ClayButton>
+                    <ClayButton type="button" onClick={handleCancel}>Cancel</ClayButton>
                     <ClayButton type="submit">Submit</ClayButton>
                 </ClayForm.Group>
             </ClayForm>

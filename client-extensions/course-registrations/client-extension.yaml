@@ -1,0 +1,13 @@
+assemble:
+    - from: vite-build
+      into: static
+course-registrations:
+    friendlyURLMapping: course-registrations
+    htmlElementName: course-registrations
+    instanceable: false
+    name: React Course Registrations
+    portletCategoryName: category.client-extensions
+    type: customElement
+    urls:
+        - assets/*.js
+    useESM: true

@@ -13,11 +13,18 @@ import ClayManagementToolbar from '@clayui/management-toolbar';
 const Toolbar = ( { onAddCourseRegistration, onSearch } ) => {
     const [inputValue, setInputValue] = useState('');
 
+    /**
+     * handleChange: Handles the change in the search input.
+     * @param {*} e The event object.
+     */
     const handleChange = (e) => {
         setInputValue(e.target.value);
         onSearch(inputValue);
     };
 
+    /**
+     * handleClear: Handles the clear of the search input.
+     */
     const handleClear = () => {
         setInputValue('');
         onSearch(inputValue);
@@ -41,7 +48,7 @@ const Toolbar = ( { onAddCourseRegistration, onSearch } ) => {
                                     aria-label="Close search"
                                     className="navbar-breakpoint-d-none"
                                     displayType="unstyled"
-                                    onClick={() => { setSearchMobile(false); handleClear(); }}
+                                    onClick={() => { handleClear(); }}
                                     symbol="times"
                                 />
                             </ClayInput.GroupInsetItem>

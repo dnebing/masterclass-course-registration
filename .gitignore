@@ -2,6 +2,11 @@
 .gradle
 .gradle/**
 .idea
+
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+
 /bundles
 /poshi/poshi-ext.properties
 /poshi/test-results
