@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ActionButton from './ActionButton.jsx';
 import ClayButton from '@clayui/button';
 
-const SiteID = "32815";
+import { SiteID } from './constants.js';
 
 /**
  * generateUrl: Generates the URL for the action.

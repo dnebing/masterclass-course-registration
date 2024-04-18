@@ -13,7 +13,7 @@ import ActionButtons from './ActionButtons.jsx';
 import ClayButton from '@clayui/button';
 import filterAndSortData from './FilterAndSort.js';
 
-const SiteID = "32815";
+import { SiteID } from './constants.js';
 
 /**
  * AdminTableComponent: Implements the table for the admin view.
