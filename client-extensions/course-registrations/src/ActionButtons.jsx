@@ -37,12 +37,12 @@ const PendingButtons = ({ data, onUpdateStatus}) => (
 );
 
 /**
- * RegisteredButtons: Implements the deny button for registered registrations.
+ * RegisteredButton: Implements the deny button for registered registrations.
  * @param {*} data The data object.
  * @param {*} onUpdateStatus The method to call when the status should be updated.
  * @returns 
  */
-const RegisteredButtons = ({ data, onUpdateStatus }) => (
+const RegisteredButton = ({ data, onUpdateStatus }) => (
     <>
         {data["actions"]["denyRegistration"] && <ActionButton url={generateUrl(data["externalReferenceCode"], "denyRegistration")} 
             onUpdateStatus={onUpdateStatus} displayType="secondary" label="Deny" />}
@@ -50,12 +50,12 @@ const RegisteredButtons = ({ data, onUpdateStatus }) => (
 );
   
 /**
- * DeniedButtons: Implements the approve button for denied registrations.
+ * DeniedButton: Implements the approve button for denied registrations.
  * @param {*} data The data object.
  * @param {*} onUpdateStatus The method to call when the status should be updated.
  * @returns 
  */
-const DeniedButtons = ({ data, onUpdateStatus}) => (
+const DeniedButton = ({ data, onUpdateStatus}) => (
     <>
         {data["actions"]["approveRegistration"] && <ActionButton url={generateUrl(data["externalReferenceCode"], "approveRegistration")} 
             onUpdateStatus={onUpdateStatus} displayType="primary" label="Approve" />}
@@ -70,13 +70,13 @@ const DeniedButtons = ({ data, onUpdateStatus}) => (
  * @param {*} onBackToList The method to call when the user wants to go back to the list.
  */
 const BackToListButtons = ({ data, onUpdateStatus, admin, onBackToList }) => (
-    <ClayButton.Group spaced={true}>
+    <ClayButton.Group>
         <ActionButton url={null} displayType="primary" label="Back to List" onUpdateStatus={onBackToList} />
         {admin && data && data["registrationStatus"] && (
             <>
                 {data["registrationStatus"]["key"] === 'pending' && <PendingButtons data={data} onUpdateStatus={onUpdateStatus} />}
-                {data["registrationStatus"]["key"] === 'registered' && <RegisteredButtons data={data} onUpdateStatus={onUpdateStatus} />}
-                {data["registrationStatus"]["key"] === 'denied' && <DeniedButtons data={data} onUpdateStatus={onUpdateStatus} />}
+                {data["registrationStatus"]["key"] === 'registered' && <RegisteredButton data={data} onUpdateStatus={onUpdateStatus} />}
+                {data["registrationStatus"]["key"] === 'denied' && <DeniedButton data={data} onUpdateStatus={onUpdateStatus} />}
             </>
         )}
     </ClayButton.Group>
@@ -105,11 +105,11 @@ const ActionButtons = ({ data, onUpdateStatus, onBackToList = null, admin = fals
     if (data && data["registrationStatus"] && data["registrationStatus"]["key"]) {
         switch (data["registrationStatus"]["key"]) {
             case 'pending':
-            return <ClayButton.Group spaced={true}><PendingButtons data={data} onUpdateStatus={onUpdateStatus} /></ClayButton.Group>;
+            return <ClayButton.Group><PendingButtons data={data} onUpdateStatus={onUpdateStatus} /></ClayButton.Group>;
             case 'registered':
-            return <RegisteredButtons data={data} onUpdateStatus={onUpdateStatus} />;
+            return <RegisteredButton data={data} onUpdateStatus={onUpdateStatus} />;
             case 'denied':
-            return <DeniedButtons data={data} onUpdateStatus={onUpdateStatus} />;
+            return <DeniedButton data={data} onUpdateStatus={onUpdateStatus} />;
         }
     }
 

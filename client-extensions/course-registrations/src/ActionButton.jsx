@@ -15,12 +15,7 @@ import ClayButton from '@clayui/button';
  */
 const ActionButton = ({ url, onUpdateStatus, displayType, label }) => {
 
-    const updateStatus = useCallback(() => {
-        console.log("Status changed, updating.", typeof onUpdateStatus);
-        onUpdateStatus();
-    }, [onUpdateStatus]);
-
-    /**
+     /**
      * handleChangeStatus: Handles the click on the approve or deny button.
      */
     const handleChangeStatus = useCallback(() => {
@@ -44,7 +39,9 @@ const ActionButton = ({ url, onUpdateStatus, displayType, label }) => {
     });
 
     return (
-        <ClayButton onClick={handleChangeStatus} displayType={displayType}>{label}</ClayButton>
+        <div class="btn-group-item">
+            <ClayButton onClick={handleChangeStatus} displayType={displayType}>{label}</ClayButton>
+        </div>
     );
 };
 
