@@ -10,6 +10,7 @@ import DetailComponent from './DetailComponent.jsx';
 import FormComponent from './FormComponent.jsx';
 import AdminTableComponent from './AdminTableComponent.jsx';
 import { RegistrationStatusERC, UpcomingCoursesERC } from './constants.js';
+import fetchMap from './fetchMap.js';
 
 import './App.css'
 
@@ -26,51 +27,29 @@ function App({ admin = false}) {
 	/**
 	 * fetchRegistrationStatuses: Fetches the map of registration statuses.
 	 */
-	const fetchRegistrationStatuses = () => {
-		api('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
-			+ RegistrationStatusERC)
-			.then((response) => response.json())
-			.then((response) => {
-				if (response.listTypeEntries) {
-					// extract the object
-					const statusObject = response.listTypeEntries.reduce((acc, entry) => {
-						acc[entry.key] = entry.name;
-						return acc;
-					}, {});
-
-					// set it as the value
-					setRegistrationStatuses(statusObject);
-				}
-			})
-			.catch((error) => {
-				// eslint-disable-next-line no-console
-				console.log("Status Error: ", error);
-			});
+	const fetchRegistrationStatuses = async () => {
+		try {
+			const map = await fetchMap('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
+				+ RegistrationStatusERC);
+			
+			setRegistrationStatuses(map);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	/**
 	 * fetchUpcomingCourses: Fetches a map of the upcoming courses
 	 */
-	const fetchUpcomingCourses = () => {
-		api('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
-			+ UpcomingCoursesERC)
-			.then((response) => response.json())
-			.then((response) => {
-				if (response.listTypeEntries) {
-					// extract the object
-					const courses = response.listTypeEntries.reduce((acc, entry) => {
-						acc[entry.key] = entry.name;
-						return acc;
-					}, {});
-
-					// set it as the value
-					setUpcomingCourses(courses);
-				}
-			})
-			.catch((error) => {
-				// eslint-disable-next-line no-console
-				console.log("Course Error: ", error);
-			});
+	const fetchUpcomingCourses = async () => {
+		try {
+		const map = await fetchMap('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
+			+ UpcomingCoursesERC);
+	
+		setUpcomingCourses(map);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
