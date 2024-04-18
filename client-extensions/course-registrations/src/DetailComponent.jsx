@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from './api.js';
 import ActionButtons from './ActionButtons.jsx';
 
-const SiteID = "32815";
+import { SiteID } from './constants.js';
 
 /**
  * DetailComponent: Implements the detail component.

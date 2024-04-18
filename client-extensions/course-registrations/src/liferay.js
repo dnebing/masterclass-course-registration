@@ -27,8 +27,8 @@ const Liferay = window.Liferay || {
 	ThemeDisplay: {
 		getCompanyGroupId: () => 0,
 		getPathThemeImages: () => '',
-		getScopeGroupId: () => 0,
-		getSiteGroupId: () => 0,
+		getScopeGroupId: () => 32815,
+		getSiteGroupId: () => 32815,
 		isSignedIn: () => {
 			return false;
 		},

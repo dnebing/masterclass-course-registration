@@ -2,6 +2,7 @@ import React, { StrictMode } from 'react'
 import { ClayIconSpriteContext } from '@clayui/icon';
 import App from './App.jsx'
 import './index.css'
+import "@clayui/css/lib/css/atlas.css";
 import getIconSpriteMap from './util.js'
 import stringToBoolean from './stringToBoolean.js';
 

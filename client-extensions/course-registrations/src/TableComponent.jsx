@@ -12,7 +12,7 @@ import Toolbar from "./Toolbar.jsx";
 import ClayButton from '@clayui/button';
 import filterAndSortData from './FilterAndSort.js';
 
-const SiteID = "32815";
+import { SiteID } from './constants.js';
 
 /**
  * TableComponent: Implements the table for the non-admin view.

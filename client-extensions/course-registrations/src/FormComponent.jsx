@@ -6,7 +6,7 @@ import ClayButton from '@clayui/button';
 
 import api from './api.js';
 
-const SiteID = "32815";
+import { SiteID } from './constants.js';
 
 /**
  * FormComponent: Implements the form for adding or editing a course registration.

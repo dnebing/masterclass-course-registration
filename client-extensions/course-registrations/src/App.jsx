@@ -9,23 +9,9 @@ import TableComponent from './TableComponent.jsx';
 import DetailComponent from './DetailComponent.jsx';
 import FormComponent from './FormComponent.jsx';
 import AdminTableComponent from './AdminTableComponent.jsx';
+import { RegistrationStatusERC, UpcomingCoursesERC } from './constants.js';
 
 import './App.css'
-
-/*
-
-NOTES:
-
-  Picklists:
-    Upcoming Courses:    "externalReferenceCode": "349e4cd7-9a49-d708-cef9-e4c3505caf8d",
-    Registration Status: "externalReferenceCode": "8cc56fb2-6de7-df6d-84de-6d81135c26aa",
- */
-
-// should probably look these up instead of hard-coding them.
-const UpcomingCoursesERC = "349e4cd7-9a49-d708-cef9-e4c3505caf8d";
-const RegistrationStatusERC = "8cc56fb2-6de7-df6d-84de-6d81135c26aa";
-
-const SiteID = "32815";
 
 /**
  * App: This is the main  component for the course registrations application.
