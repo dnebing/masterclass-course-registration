@@ -66,8 +66,6 @@ const FormComponent = ( {courses, statuses, registration, onClearSelection}) => 
         api(url, { method: method, body: body })
         .then((response) => {
             // check the response from the api call
-            console.log("Form Submit Result: ", response);
-
             if (response.ok) {
                 // if the response is ok, clear the selection and navigate back to the list view
                 onClearSelection();
@@ -110,9 +108,9 @@ const FormComponent = ( {courses, statuses, registration, onClearSelection}) => 
                     <ClayInput id="status" value={statuses[status]} disabled />
                 </ClayForm.Group>
 
-                <ClayForm.Group>
-                    <ClayButton type="button" onClick={handleCancel}>Cancel</ClayButton>
-                    <ClayButton type="submit">Submit</ClayButton>
+                <ClayForm.Group spaced>
+                    <ClayButton type="button" onClick={handleCancel} displayType="secondary">Cancel</ClayButton>
+                    <ClayButton type="submit" displayType="primary">Submit</ClayButton>
                 </ClayForm.Group>
             </ClayForm>
             <ClayAlert.ToastContainer>

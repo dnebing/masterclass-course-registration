@@ -43,10 +43,10 @@ function App({ admin = false}) {
 	 */
 	const fetchUpcomingCourses = async () => {
 		try {
-		const map = await fetchMap('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
-			+ UpcomingCoursesERC);
-	
-		setUpcomingCourses(map);
+			const map = await fetchMap('o/headless-admin-list-type/v1.0/list-type-definitions/by-external-reference-code/'
+				+ UpcomingCoursesERC);
+		
+			setUpcomingCourses(map);
 		} catch (error) {
 			console.log(error);
 		}
