@@ -4,7 +4,6 @@
 
 import React, { useState, useEffect } from 'react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
-import api from './api.js';
 import TableComponent from './TableComponent.jsx';
 import DetailComponent from './DetailComponent.jsx';
 import FormComponent from './FormComponent.jsx';

@@ -108,9 +108,11 @@ const FormComponent = ( {courses, statuses, registration, onClearSelection}) => 
                     <ClayInput id="status" value={statuses[status]} disabled />
                 </ClayForm.Group>
 
-                <ClayForm.Group spaced>
-                    <ClayButton type="button" onClick={handleCancel} displayType="secondary">Cancel</ClayButton>
-                    <ClayButton type="submit" displayType="primary">Submit</ClayButton>
+                <ClayForm.Group>
+                    <ClayButton.Group spaced>
+                        <ClayButton type="button" onClick={handleCancel} displayType="secondary">Cancel</ClayButton>
+                        <ClayButton type="submit" displayType="primary">Submit</ClayButton>
+                    </ClayButton.Group>
                 </ClayForm.Group>
             </ClayForm>
             <ClayAlert.ToastContainer>
