@@ -4,7 +4,7 @@ assemble:
 course-registrations:
     friendlyURLMapping: course-registrations
     htmlElementName: course-registrations
-    instanceable: false
+    instanceable: true
     name: React Course Registrations
     portletCategoryName: category.client-extensions
     type: customElement

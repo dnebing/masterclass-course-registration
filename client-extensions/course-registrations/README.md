@@ -52,3 +52,10 @@ To distribute the CX to Liferay PaaS or Self-Hosted, build the distribution zip 
 Do *not* drop the distribution zip file into the Liferay `deploy` folder as it will not deploy correctly.
 
 To distribute the CX to Liferay SaaS, use the Liferay CLI tool to upload the CX and Liferay will take care of the rest.
+
+**NOTE** : This CX has a `constants.js` file where I have hard-coded the site id and ERC values for my picklists. To use this
+in your own environment, you'll likely need to change these constants to match your environ. This is not how you should code
+your CX, you really should be looking up the values instead of hard-coding them. But my purpose here was to demonstrate a React
+CX, not necessarily a _perfect_ React CX...
+
+Enjoy!
