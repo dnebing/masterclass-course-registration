@@ -10,6 +10,7 @@ import FormComponent from './FormComponent.jsx';
 import AdminTableComponent from './AdminTableComponent.jsx';
 import { RegistrationStatusERC, UpcomingCoursesERC } from './constants.js';
 import fetchMap from './fetchMap.js';
+import ClayAlert from '@clayui/alert';
 
 import './App.css'
 
@@ -22,6 +23,7 @@ function App({ admin = false}) {
 	const [registrationStatuses, setRegistrationStatuses] = useState({});
 	const [upcomingCourses, setUpcomingCourses] = useState([{}]);
 	const [selectedRegistration, setSelectedRegistration] = useState(null);
+    const [toastItems, setToastItems] = useState([]);
 
 	/**
 	 * fetchRegistrationStatuses: Fetches the map of registration statuses.
@@ -71,15 +73,37 @@ function App({ admin = false}) {
 		setSelectedRegistration(null);
 	};
 
+	const renderToast = (title, text, displayType) => {
+		setToastItems([...toastItems, { title: title, text: text, displayType: displayType }]);
+	};
+
   return (
+	<>
 		<MemoryRouter initialEntries={['/']}>
 		  <Routes>
 			<Route path="/" element={ admin ? <AdminTableComponent onRowSelected={handleRowSelected} onClearSelection={clearSelectedRow} /> 
 				: <TableComponent onRowSelected={handleRowSelected} onClearSelection={clearSelectedRow} />} />
 			<Route path="/detail" element={ <DetailComponent externalReferenceCode={selectedRegistration ? selectedRegistration.externalReferenceCode : null} onClearSelection={clearSelectedRow} admin={admin} />} />
-			<Route path="/add" element={ <FormComponent courses={upcomingCourses} statuses={registrationStatuses} registration={null} onClearSelection={clearSelectedRow} />} />
+			<Route path="/add" element={ <FormComponent courses={upcomingCourses} statuses={registrationStatuses} 
+				registration={null} onClearSelection={clearSelectedRow} renderToast={renderToast} />} />
 		  </Routes>
 		</MemoryRouter>
+		<ClayAlert.ToastContainer>
+                {toastItems.map(value => (
+                    <ClayAlert
+                        autoClose={5000}
+                        key={value}
+                        onClose={() => {
+                            setToastItems(prevItems =>
+                                prevItems.filter(item => item !== value)
+                            );
+                        }}
+                        displayType={value.displayType}
+                        title={value.title}
+                    >{value.text}</ClayAlert>
+                ))}
+            </ClayAlert.ToastContainer>
+	</>
   )
 };
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ClayForm, {ClayInput, ClaySelect} from '@clayui/form';
-import ClayAlert from '@clayui/alert';
 import ClayButton from '@clayui/button';
 
 import api from './api.js';
@@ -14,8 +13,9 @@ import { SiteID } from './constants.js';
  * @param statuses The list of registration statuses.
  * @param registration The registration to edit, if any.
  * @param onClearSelection The method to call when the form is cancelled.
+ * @param renderToast The method to call to render a toast.
  */
-const FormComponent = ( {courses, statuses, registration, onClearSelection}) => {
+const FormComponent = ( {courses, statuses, registration, onClearSelection, renderToast}) => {
     const [selectedCourse, setSelectedCourse] = useState('');
     const [notes, setNotes] = useState('');
     const [status, setStatus] = useState('pending');
@@ -45,7 +45,7 @@ const FormComponent = ( {courses, statuses, registration, onClearSelection}) => 
 
         // make sure the course is selected
         if (!selectedCourse || selectedCourse === '') {
-            setToastItems([...toastItems, {title: 'Error', text: 'Please select a course.', displayType: 'danger'}]);
+            renderToast('Error', 'Please select a course.', 'danger');
 
             return;
         }
@@ -67,6 +67,8 @@ const FormComponent = ( {courses, statuses, registration, onClearSelection}) => 
         .then((response) => {
             // check the response from the api call
             if (response.ok) {
+                renderToast('Registration Added', 'Course registration has been added', 'success');
+
                 // if the response is ok, clear the selection and navigate back to the list view
                 onClearSelection();
                 navigate('/');
@@ -86,51 +88,34 @@ const FormComponent = ( {courses, statuses, registration, onClearSelection}) => 
     }
 
     return (
-        <div>
-            <ClayForm onSubmit={handleFormSubmit}>
-                <ClayForm.Group>
-                    <label htmlFor="course">Select Course:</label>
-                    <ClaySelect id="course" value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
-                        <ClaySelect.Option key="invalid" value="" label="-- Select a Course --" />
-                        {Object.entries(courses).map(([courseId, courseName]) => (
-                            <ClaySelect.Option key={courseId} value={courseId} label={courseName} />
-                        ))}
-                    </ClaySelect>
-                </ClayForm.Group>
+        <ClayForm onSubmit={handleFormSubmit}>
+            <ClayForm.Group>
+                <label htmlFor="course">Select Course:</label>
+                <ClaySelect id="course" value={selectedCourse} onChange={(e) => setSelectedCourse(e.target.value)}>
+                    <ClaySelect.Option key="invalid" value="" label="-- Select a Course --" />
+                    {Object.entries(courses).map(([courseId, courseName]) => (
+                        <ClaySelect.Option key={courseId} value={courseId} label={courseName} />
+                    ))}
+                </ClaySelect>
+            </ClayForm.Group>
 
-                <ClayForm.Group>
-                    <label htmlFor="notes">Notes:</label>
-                    <ClayInput id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
-                </ClayForm.Group>
+            <ClayForm.Group>
+                <label htmlFor="notes">Notes:</label>
+                <ClayInput id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+            </ClayForm.Group>
 
-                <ClayForm.Group>
-                    <label htmlFor="status">Status:</label>
-                    <ClayInput id="status" value={statuses[status]} disabled />
-                </ClayForm.Group>
+            <ClayForm.Group>
+                <label htmlFor="status">Status:</label>
+                <ClayInput id="status" value={statuses[status]} disabled />
+            </ClayForm.Group>
 
-                <ClayForm.Group>
-                    <ClayButton.Group spaced>
-                        <ClayButton type="button" onClick={handleCancel} displayType="secondary">Cancel</ClayButton>
-                        <ClayButton type="submit" displayType="primary">Submit</ClayButton>
-                    </ClayButton.Group>
-                </ClayForm.Group>
-            </ClayForm>
-            <ClayAlert.ToastContainer>
-                {toastItems.map(value => (
-                    <ClayAlert
-                        autoClose={5000}
-                        key={value}
-                        onClose={() => {
-                            setToastItems(prevItems =>
-                                prevItems.filter(item => item !== value)
-                            );
-                        }}
-                        displayType={value.displayType}
-                        title={value.title}
-                    >{value.text}</ClayAlert>
-                ))}
-            </ClayAlert.ToastContainer>
-        </div>
+            <ClayForm.Group>
+                <ClayButton.Group spaced>
+                    <ClayButton type="button" onClick={handleCancel} displayType="secondary">Cancel</ClayButton>
+                    <ClayButton type="submit" displayType="primary">Submit</ClayButton>
+                </ClayButton.Group>
+            </ClayForm.Group>
+        </ClayForm>
     );
 };
 
