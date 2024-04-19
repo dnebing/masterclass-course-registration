@@ -73,6 +73,12 @@ function App({ admin = false}) {
 		setSelectedRegistration(null);
 	};
 
+	/**
+	 * renderToast: Renders a toast message.
+	 * @param {*} title The title of the toast.
+	 * @param {*} text The text of the toast.
+	 * @param {*} displayType The display type of the toast.
+	 */
 	const renderToast = (title, text, displayType) => {
 		setToastItems([...toastItems, { title: title, text: text, displayType: displayType }]);
 	};
